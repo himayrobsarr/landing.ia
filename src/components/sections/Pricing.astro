@@ -1,0 +1,78 @@
+
+---
+import Card from '../ui/Card.astro';
+import Button from '../ui/Button.astro';
+
+const benefits = [
+ {
+   highlight: true,
+   text: "Certificado Profesional en IA Generativa"
+ },
+ {
+   highlight: true,
+   text: "Acceso a herramientas empresariales de IA valoradas en $1000+"
+ },
+ {
+   text: "90 días de formación intensiva"
+ },
+ {
+   text: "15+ proyectos prácticos con código"
+ },
+ {
+   text: "Mentoría personalizada semanal"
+ },
+ {
+   text: "Comunidad privada de alumnos"
+ },
+ {
+   text: "Recursos y templates empresariales"
+ },
+ {
+   text: "Bolsa de trabajo exclusiva"
+ }
+];
+---
+
+<section class="py-20 relative">
+  <div class="container mx-auto px-4">
+    <Card class="max-w-3xl mx-auto">
+      <div class="text-center p-4 sm:p-8">
+        <span class="inline-block bg-purple-500/20 text-purple-300 rounded-full px-4 py-1.5 text-sm font-medium mb-8">
+          Oferta de Lanzamiento • 50% Descuento
+        </span>
+        
+        <div class="flex flex-col sm:flex-row justify-center items-center sm:items-baseline gap-2 sm:gap-4 mb-8">
+          <span class="text-4xl sm:text-6xl font-bold order-2 sm:order-1">$97.000</span>
+          <span class="text-lg sm:text-xl text-white/40 order-1 sm:order-2">
+            mensual
+          </span>
+        </div>
+  
+        <div class="space-y-4 mb-8 text-left">
+          {benefits.map(benefit => (
+            <div class="flex items-start gap-2">
+              <svg 
+                class={`w-5 h-5 mt-0.5 flex-shrink-0 ${benefit.highlight ? 'text-purple-400' : 'text-purple-300/70'}`} 
+                viewBox="0 0 20 20" 
+                fill="currentColor"
+              >
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+              </svg>
+              <span class={`${benefit.highlight ? 'text-white font-medium' : 'text-white/80'}`}>
+                {benefit.text}
+              </span>
+            </div>
+          ))}
+        </div>
+  
+        <Button variant="primary" class="w-full">
+          Reserva tu cupo ahora
+        </Button>
+  
+        <p class="text-center text-sm text-white/60 mt-4">
+          ¿Qué estás esperando?
+        </p>
+      </div>
+    </Card>
+  </div>
+  </section>

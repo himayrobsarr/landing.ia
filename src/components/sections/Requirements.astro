@@ -1,0 +1,30 @@
+---
+const requirements = [
+ {
+   title: "Python Básico",
+   description: "Conocimientos fundamentales de programación en Python: variables, funciones, bucles y estructuras de datos básicas."
+ },
+ {
+   title: "Lógica Matemática",
+   description: "Comprensión de álgebra básica y lógica matemática fundamental. No se requiere cálculo avanzado."
+ },
+ {
+   title: "Actitud y Compromiso",
+   description: "Pasión por el aprendizaje, dedicación de 10-15 horas semanales y disposición para resolver problemas."
+ }
+];
+---
+
+<section class="py-20 bg-black/40">
+ <div class="container mx-auto px-4">
+   <h2 class="text-3xl font-bold text-center mb-12 text-white">Requisitos Previos</h2>
+   <div class="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+     {requirements.map(req => (
+       <div class="bg-white/5 border border-purple-500/20 rounded-xl p-6 hover:border-purple-500/40 transition-all">
+         <h3 class="text-xl font-semibold mb-3 text-purple-400">{req.title}</h3>
+         <p class="text-white/70">{req.description}</p>
+       </div>
+     ))}
+   </div>
+ </div>
+</section>

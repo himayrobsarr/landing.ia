@@ -1,0 +1,19 @@
+---
+import { features } from '../../data/features';
+import Card from '../ui/Card.astro';
+---
+
+<section class="py-20 relative">
+  <div class="container mx-auto px-4">
+    <h2 class="text-3xl font-bold text-center mb-16">Lo que aprenderás</h2>
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+      {features.map(feature => (
+        <Card 
+          title={feature.title}
+          description={feature.description}
+          weeks={feature.weeks}
+        />
+      ))}
+    </div>
+  </div>
+</section>

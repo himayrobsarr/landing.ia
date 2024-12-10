@@ -1,0 +1,65 @@
+
+---
+import CountdownTimer from '../ui/CountdownTimer';
+const whatsappText = encodeURIComponent(`¡Hola! Me interesa el Master en IA Generativa. Quiero más información sobre el proceso de inscripción y pago.
+
+Mi consulta es sobre:
+- Precio de lanzamiento: $97.000 
+- Duración: 90 días
+- Modalidad online
+
+¿Me podrías indicar los pasos para inscribirme?`);
+
+const whatsappLink = `https://wa.me/573160522555?text=${whatsappText}`;
+---
+
+<section class="relative min-h-screen flex items-center pt-28">
+ <div class="absolute inset-0 bg-gradient-radial from-purple-900/20 via-black to-black"></div>
+ <div class="container mx-auto px-4 relative z-10">
+   <div class="text-center">
+     <span class="inline-block mb-8">
+       <span class="bg-gradient-to-r from-purple-500/20 to-purple-300/10 border border-purple-500/20 rounded-full px-4 py-1.5 text-sm font-medium text-purple-300">
+         Edición Limitada • 100 cupos
+       </span>
+     </span>
+     <h1 class="text-4xl md:text-7xl font-bold mb-8 bg-gradient-to-br from-white to-purple-200 text-transparent bg-clip-text">
+       Domina la IA Generativa<br />
+       y Construye el Futuro
+     </h1>
+     <p class="text-xl text-white/60 max-w-2xl mx-auto mb-12">
+       90 días intensivos para convertirte en experto en Inteligencia Artificial. 
+       De cero a experto con proyectos reales.
+     </p>
+     <CountdownTimer client:load />
+     <div class="flex flex-col sm:flex-row gap-4 justify-center mt-12 mb-16">
+       <a  href=#registro
+         target="_blank"
+         rel="noopener noreferrer"
+         class="bg-purple-600 hover:bg-purple-500 text-white px-8 py-4 rounded-lg font-medium transition-all transform hover:scale-105"
+       >
+         Reserva tu cupo • $97.000
+       <a href={whatsappLink}
+         target="_blank"
+         rel="noopener noreferrer" 
+         class="border border-white/10 hover:border-white/20 px-8 py-4 rounded-lg font-medium"
+       >
+         Ver programa completo
+       </a>
+     </div>
+     <div class="grid sm:grid-cols-3 gap-6 max-w-3xl mx-auto">
+       <div class="bg-white/5 rounded-lg p-4">
+         <div class="text-2xl font-bold text-purple-400">90%</div>
+         <div class="text-sm text-white/60">Tasa de finalización</div>
+       </div>
+       <div class="bg-white/5 rounded-lg p-4">
+         <div class="text-2xl font-bold text-purple-400">15+</div>
+         <div class="text-sm text-white/60">Proyectos prácticos</div>
+       </div>
+       <div class="bg-white/5 rounded-lg p-4">
+         <div class="text-2xl font-bold text-purple-400">24/7</div>
+         <div class="text-sm text-white/60">Soporte técnico</div>
+       </div>
+     </div>
+   </div>
+ </div>
+</section>
