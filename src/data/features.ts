@@ -1,33 +1,33 @@
 
 export const features = [
     {
-      title: "Fundamentos de IA",
-      description: "Matemáticas, Python y bases de Deep Learning",
-      weeks: "Módulo 1 • 3 semanas"
+      title: "Introducción a la Inteligencia Artificial",
+      description: "Descubre qué es la IA y cómo puedes usarla en tareas diarias sin conocimientos técnicos.",
+      weeks: "Módulo 1 "
     },
     {
-      title: "Large Language Models",
-      description: "Implementación y fine-tuning de LLMs",
-      weeks: "Módulo 2 • 3 semanas"
+      title: "Automatización de Documentos",
+      description: "Aprende a generar reportes, cartas y correos electrónicos con herramientas que redactan por ti, ¡solo necesitas dar una idea inicial!",
+      weeks: "Módulo 2 "
     },
     {
-      title: "Sistemas RAG",
-      description: "Recuperación y generación aumentada",
-      weeks: "Módulo 3 • 2 semanas"
+      title: "Gestión Inteligente de Agendas y Tareas",
+      description: "Descubre cómo asistentes virtuales pueden ayudarte a organizar citas, recordar pendientes y planificar tu día de forma eficiente.",
+      weeks: "Módulo 3 "
     },
     {
-      title: "Vector Databases",
-      description: "Embeddings y búsqueda semántica",
-      weeks: "Módulo 4 • 2 semanas"
+      title: "Creación de Resúmenes Rápidos",
+      description: "Convierte largos textos en resúmenes claros y precisos en cuestión de segundos con la ayuda de la IA.",
+      weeks: "Módulo 4 "
     },
     {
-      title: "MLOps & Deploy",
-      description: "Despliegue y monitoreo de modelos",
-      weeks: "Módulo 5 • 2 semanas"
+      title: "Generación de Ideas y Soluciones",
+      description: "Encuentra inspiración o soluciones rápidas para problemas laborales cotidianos, desde redactar un memo hasta planificar una reunión.",
+      weeks: "Módulo 5 "
     },
     {
-      title: "Proyecto Final",
-      description: "Implementación de caso real",
-      weeks: "Módulo 6 • 2 semanas"
+      title: "Optimización de Trabajo Administrativo",
+      description: "Usa herramientas de IA para completar hojas de cálculo, analizar datos simples o crear presentaciones con menos esfuerzo.",
+      weeks: "Módulo 6 "
     }
   ];
