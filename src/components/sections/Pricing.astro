@@ -24,8 +24,6 @@ const benefits = [
    text: "Comunidad privada de alumnos"
  }
 ];
-
-const reservaCupoLink = "#registro";
 ---
 
 <section class="py-20 relative">
@@ -59,11 +57,11 @@ const reservaCupoLink = "#registro";
             </div>
           ))}
         </div>
-  
-        <Button variant="primary" class="w-full" href={reservaCupoLink}>
-          Reserva tu cupo ahora
-        </Button>
-  
+        <a href="#registro">
+          <Button variant="primary" class="w-full" >
+            Reserva tu cupo ahora
+          </Button>
+        </a>
         <p class="text-center text-sm text-white/60 mt-4">
           ¿Qué estás esperando?
         </p>
