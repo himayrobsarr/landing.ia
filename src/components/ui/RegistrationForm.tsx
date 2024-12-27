@@ -64,7 +64,7 @@ Para completar el registro envia tu cédula en pdf!!  `);
 
      // Redirect to WhatsApp after 1.5 seconds
      setTimeout(() => {
-       window.open(`https://wa.me/573160522555?text=${whatsappText}`, '_blank');
+       window.open(`https://wa.me/573012463004?text=${whatsappText}`, '_blank');
      }, 1500);
      
    } catch (err) {
