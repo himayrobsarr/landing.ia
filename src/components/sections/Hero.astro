@@ -1,6 +1,7 @@
-
 ---
 import CountdownTimer from '../ui/CountdownTimer';
+import { Image } from 'astro:assets';
+import logo from '../../assets/logo.png';
 const whatsappText = encodeURIComponent(`¡Hola! Me interesa el curso en IA Generativa. Quiero más información sobre el proceso de inscripción y pago.
 
 Mi consulta es sobre:
@@ -17,6 +18,13 @@ const whatsappLink = `https://wa.me/573012463004?text=${whatsappText}`;
 <section class="relative min-h-screen flex items-center pt-28">
  <div class="absolute inset-0 bg-gradient-radial from-purple-900/20 via-black to-black"></div>
  <div class="container mx-auto px-4 relative z-10">
+    <Image 
+      src={logo}
+      alt="Hero Image" 
+      class="mx-auto w-1/4 h-auto"
+      width={200}
+      height={150}
+    />
    <div class="text-center">
      <span class="inline-block mb-8">
        <span class="bg-gradient-to-r from-purple-500/20 to-purple-300/10 border border-purple-500/20 rounded-full px-4 py-1.5 text-sm font-medium text-purple-300">
