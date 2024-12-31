@@ -57,8 +57,8 @@ Datos de registro:
 📋 Nombre: ${formData.firstName} ${formData.lastName}
 📧 Email: ${formData.email}
 📱 Teléfono: ${formData.phone}
-🏢 Carrera: ${formData.company}
-💼 Semestre: ${formData.position}
+🏢 Compañia: ${formData.company}
+💼 Cargo: ${formData.position}
 
 Para completar el registro envia tu cédula en pdf!!  `);
 
@@ -150,13 +150,13 @@ Para completar el registro envia tu cédula en pdf!!  `);
            label: 'Compañia', 
            name: 'company', 
            type: 'text',
-           placeholder: 'Nombre de tu Carrera'
+           placeholder: 'Nombre de tu Compañia'
          },
          { 
            label: 'Cargo', 
            name: 'position', 
            type: 'text',
-           placeholder: 'Semestre actual'
+           placeholder: 'Cargo'
          }
        ].map(field => (
          <div key={field.name} className="space-y-2">
