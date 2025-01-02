@@ -5,6 +5,7 @@ interface Props {
 }
 
 const { title, description = "Master en IA Generativa - Aprende a construir el futuro" } = Astro.props;
+const helpMessage = `Hola, quisiera saber mas sobre Curso de inteligencia artificial. Por favor, ¿inscribirme?.`;
 ---
 
 <!DOCTYPE html>
@@ -20,7 +21,12 @@ const { title, description = "Master en IA Generativa - Aprende a construir el f
     <slot />
     <!-- Botón flotante de WhatsApp -->
     <div class="floating-whatsapp">
-      <a href="https://wa.me/+573012463004" target="_blank" rel="noopener noreferrer" aria-label="Chat en WhatsApp">
+      <a
+        href={`https://wa.me/573012463004?text=${encodeURIComponent(helpMessage)}`}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Chat en WhatsApp"
+      >
         <svg
           viewBox="0 0 256 259"
           width="30"
