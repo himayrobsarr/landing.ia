@@ -6,18 +6,9 @@ interface Props {
 
 const { title, description = "Master en IA Generativa - Aprende a construir el futuro" } = Astro.props;
 const helpMessage = `Hola, quisiera saber mas sobre Curso de inteligencia artificial. Por favor, ¿inscribirme?.`;
----
 
-<!DOCTYPE html>
-<html lang="es">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.png" />
-    <meta name="description" content={description} />
-    <title>{title}</title>
-    
-    <!-- TikTok Pixel Code Start -->
+function insertTikTokPixel() {
+  return `
     <script>
       !function (w, d, t) {
         w.TiktokAnalyticsObject=t;
@@ -31,8 +22,18 @@ const helpMessage = `Hola, quisiera saber mas sobre Curso de inteligencia artifi
         ttq.page();
       }(window, document, 'ttq');
     </script>
-    <!-- TikTok Pixel Code End -->
-    
+  `;
+}
+---
+
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.png" />
+    <meta name="description" content={description} />
+    <title>{title}</title>
   </head>
   <body class="bg-black text-white">
     <slot />
@@ -62,6 +63,9 @@ const helpMessage = `Hola, quisiera saber mas sobre Curso de inteligencia artifi
         </svg>
       </a>
     </div>
+
+    <!-- Insertar TikTok Pixel -->
+    {insertTikTokPixel()}
   </body>
 </html>
 
