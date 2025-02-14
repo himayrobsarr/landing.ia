@@ -1,8 +1,19 @@
+---
+import { Image } from 'astro:assets';
+---
+
 <header class="fixed w-full z-50 bg-black/20 backdrop-blur-md border-b border-purple-500/10">
  <div class="container mx-auto px-4 py-4 flex justify-between items-center">
-   <div class="text-xl font-bold bg-gradient-to-r from-purple-400 to-blue-400 text-transparent bg-clip-text">
-     Campuslands
-   </div>
+  <a href="/" class="text-xl font-bold bg-gradient-to-r from-purple-400 to-blue-400 text-transparent bg-clip-text">
+    <Image 
+      src="https://camper-stories.s3.us-east-2.amazonaws.com/assets/Campus.png"
+      alt="Hero Image" 
+      class="mx-auto h-auto pt-1"
+      width={160}
+      height={160}
+    />
+  </a>
+  
    <a href="#registro" class="px-6 py-2 bg-purple-500/10 border border-purple-400/30 rounded-full text-purple-400 hover:bg-purple-400/20 transition-all">
      Inscríbete Ahora
    </a>

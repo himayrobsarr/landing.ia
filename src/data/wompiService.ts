@@ -45,7 +45,8 @@ export const saveRegisteredInfo = async (payload: any): Promise<any> => {
             phone: payload.phone,
             document: payload.document,
             payment_reference: payload.transaction.reference,
-            payment_date: payload.transaction.finalizedAt
+            payment_date: payload.transaction.finalizedAt,
+            selected_course: payload.targetDate
         }
 
         // console.log("data a enviar:", data)

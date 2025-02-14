@@ -26,6 +26,7 @@ export default function RegistrationForm() {
 
   // Modificar handlePaymentSuccess para aceptar la transacción
   const handlePaymentSuccess = async (transaction: any) => {
+
     try {
       setIsSubmitting(true);
       setError('');
@@ -34,7 +35,8 @@ export default function RegistrationForm() {
       // Combinar los datos del formulario con la transacción
       const payload = {
         ...formData,
-        transaction, // Agregar la transacción al payload
+        transaction,
+        targetDate: "2025-02-22" // Si MySQL usa `DATE`
       };
 
       // Llama al servicio y envía los datos
@@ -42,26 +44,6 @@ export default function RegistrationForm() {
 
       setSuccess(true);
       resetForm();
-
-      const whatsappText = encodeURIComponent(`
-        Para completar el registro envía tu cédula en pdf!!
-
-        Datos de registro:
-        📋 Nombre: ${formData.name} ${formData.lastname}
-        📧 Email: ${formData.email}
-        📱 Teléfono: ${formData.phone}
-        🏢 Documento: ${formData.document}
-
-        Transacción:
-        🔢 ID: ${transaction.id || 'No disponible'}
-        💵 Estado: ${transaction.status || 'Desconocido'}
-
-        Para completar el registro envía tu cédula en pdf!!
-      `);
-
-      setTimeout(() => {
-        window.open(`https://wa.me/573012463004?text=${whatsappText}`, '_blank');
-      }, 1500);
 
     } catch (err) {
       console.error('Error:', err);

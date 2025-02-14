@@ -1,6 +1,7 @@
 // src/components/WompiWidget.tsx
 import React, { useEffect, useState } from 'react';
 import { getSignature } from '../../data/wompiService';
+import { sendWelcomeEmail } from '../../data/emailService';
 
 interface WompiWidgetProps {
     amountInCents: number;
@@ -68,7 +69,7 @@ const WompiWidget: React.FC<WompiWidgetProps> = ({
         amountInCents,
         reference,
         publicKey: WOMPI_PUBLIC_KEY,
-        redirectUrl: `${window.location.origin}/success`,
+        redirectUrl: `${window.location.origin}/pago-exitoso`,
         'signature:integrity': signature,
         onClose: () => {
           console.log('Widget cerrado');
@@ -81,7 +82,7 @@ const WompiWidget: React.FC<WompiWidgetProps> = ({
         }
       });
 
-      checkout.open((result: CheckoutResult) => {
+      checkout.open(async (result: CheckoutResult) => {
         if (!result || !result.transaction) {
           console.error("Error: No se recibió una transacción válida", result);
           return;
@@ -95,7 +96,23 @@ const WompiWidget: React.FC<WompiWidgetProps> = ({
           // Llamamos al callback para enviar la información del formulario
           if (onTransactionSuccess) {
             onTransactionSuccess(transaction);
+              try {
+                if (transaction.customerEmail && transaction.customerData.fullName) {
+                  console.log(transaction.customerEmail, transaction.customerData.fullName)
+                  const response = await sendWelcomeEmail(transaction.customerEmail, transaction.customerData.fullName);
+                  console.log(response);
+                } else {
+                  console.warn("No se encontraron datos del cliente para enviar el correo.");
+                }
+              } catch (error) {
+                console.error("Error enviando el correo de bienvenida:", error);
+              }
+
+              setTimeout(() => {
+                window.location.href = `${window.location.origin}/pago-exitoso`;
+              }, 1000);
           }
+
         } else if (transaction.status === "DECLINED") {
           console.error("Pago rechazado.");
         } else {

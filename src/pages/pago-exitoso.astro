@@ -1,0 +1,33 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/layout/Header.astro';
+import Footer from '../components/layout/Footer.astro';
+---
+
+<Layout title="Pago Exitoso">
+  <Header />
+  <main class="text-center h-[89vh] py-20 flex flex-col items-center justify-center">
+    <h1 class="text-4xl font-bold bg-gradient-to-r from-purple-400 to-blue-400 text-transparent bg-clip-text inline-block">
+        ¡Felicidades, estás dentro! 
+    </h1>
+    <p class="text-lg mt-4 max-w-2xl">
+      Has asegurado tu cupo en nuestra capacitación intensiva en <strong>Inteligencia Artificial Generativa</strong>. 
+      Prepárate para descubrir herramientas y estrategias que transformarán tu productividad y creatividad.
+    </p>
+    <p class="text-lg mt-2">Revisa tu <strong>correo electrónico</strong>, pronto recibirás los detalles del curso, incluyendo la ubicación, hora y más indicaciones importantes.</p>
+    <div class="mt-6 flex gap-4">
+      <a href="/" class="px-6 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-800 transition">
+        Volver al inicio
+      </a>
+    </div>
+    <div class="mt-8 p-6 bg-gray-900 rounded-lg shadow-lg max-w-xl">
+      <h2 class="text-xl font-semibold text-white">¿Qué hacer ahora?</h2>
+      <ul class="text-white mt-3 space-y-2 text-left">
+        <li>📩 <strong>Revisa tu correo</strong> para confirmar tu inscripción.</li><li>📩 <strong>Revisa tu correo</strong> para confirmar tu inscripción. A veces, el mensaje puede llegar a la bandeja de spam, así que no olvides echarle un vistazo allí también. 📥</li>
+        <li>📅 <strong>Marca la fecha</strong> en tu calendario para no perderte la sesión.</li>
+        <li>💬 <strong>Si tienes dudas</strong>, escríbenos a <a href="https://wa.me/573012463004" class="text-green-400 hover:underline">WhatsApp</a>.</li>
+      </ul>
+    </div>
+  </main>
+  <Footer />
+</Layout>
