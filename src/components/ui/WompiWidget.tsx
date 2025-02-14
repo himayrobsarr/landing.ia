@@ -1,7 +1,7 @@
 // src/components/WompiWidget.tsx
 import React, { useEffect, useState } from 'react';
 import { getSignature } from '../../data/wompiService';
-import { sendWelcomeEmail } from '../../data/emailService';
+import { sendWelcomeEmail, sendNotificationEmail } from '../../data/emailService';
 
 interface WompiWidgetProps {
     amountInCents: number;
@@ -91,6 +91,17 @@ const WompiWidget: React.FC<WompiWidgetProps> = ({
         const { transaction } = result;
         console.log("Transacción recibida:", transaction);
 
+        const notifData = {
+          email: transaction.customerEmail,
+          username: transaction.customerData.fullName,
+          phone: transaction.customerData.phoneNumber,
+          documentNumber: transaction.billingData?.legalId || "No Disponible, visita el excel",
+          documentType: transaction.billingData?.legalIdType || "No Disponible, visita el excel",
+          paymentMethod: transaction.paymentMethodType,
+          contactEmail: "miguel@fundacioncampuslands.com",
+        };
+        
+
         if (transaction.status === "APPROVED") {
           console.log("¡Pago exitoso!");
           // Llamamos al callback para enviar la información del formulario
@@ -98,9 +109,10 @@ const WompiWidget: React.FC<WompiWidgetProps> = ({
             onTransactionSuccess(transaction);
               try {
                 if (transaction.customerEmail && transaction.customerData.fullName) {
-                  console.log(transaction.customerEmail, transaction.customerData.fullName)
-                  const response = await sendWelcomeEmail(transaction.customerEmail, transaction.customerData.fullName);
-                  console.log(response);
+
+                  const welcomeResponse = await sendWelcomeEmail(transaction.customerEmail, transaction.customerData.fullName);
+                  const notificationResponse = await sendNotificationEmail(notifData)
+                  console.log(welcomeResponse, notificationResponse);
                 } else {
                   console.warn("No se encontraron datos del cliente para enviar el correo.");
                 }
@@ -108,9 +120,9 @@ const WompiWidget: React.FC<WompiWidgetProps> = ({
                 console.error("Error enviando el correo de bienvenida:", error);
               }
 
-              setTimeout(() => {
-                window.location.href = `${window.location.origin}/pago-exitoso`;
-              }, 1000);
+               setTimeout(() => {
+                 window.location.href = `${window.location.origin}/pago-exitoso`;
+               }, 300);
           }
 
         } else if (transaction.status === "DECLINED") {

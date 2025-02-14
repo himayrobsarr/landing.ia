@@ -29,3 +29,35 @@ export const sendWelcomeEmail = async (
     }
 
 };
+
+export const sendNotificationEmail = async (
+    notifData: {
+        email: string,
+        username: string,
+        phone: string,
+        documentNumber: string,
+        documentType: string,
+        paymentMethod: string,
+        contactEmail: string
+    }
+): Promise<string> => {
+    try {
+        const response = await axios.post(
+            `${API_BASE_URL}landing-ia/send-notification-email`,
+            notifData
+        );
+
+        return response.data;
+    } catch (error: unknown) {
+        if (axios.isAxiosError(error)) {
+            console.error(
+                "Error enviando el correo de notificación:",
+                error.response?.data || error.message
+            );
+        } else {
+            console.error("Error enviando el correo de notificación:", error);
+        }
+        throw new Error("No se pudo enviar el correo de notificación");
+    }
+
+}
