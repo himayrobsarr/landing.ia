@@ -1,21 +1,20 @@
 // src/components/WompiWidget.tsx
 import React, { useEffect, useState } from 'react';
 import { getSignature } from '../../data/wompiService';
-import { sendWelcomeEmail, sendNotificationEmail } from '../../data/emailService';
+import { createPendingInscription } from '../../data/wompiService';
 
 interface WompiWidgetProps {
-    amountInCents: number;
-    reference: string;
-    onTransactionSuccess?: (transaction: CheckoutResult['transaction']) => void; // Modificado para incluir transaction
-    disabled?: boolean;
-  }
-  
+  amountInCents: number;
+  formData: any;
+  onTransactionSuccess?: (transaction: CheckoutResult['transaction']) => void; // Modificado para incluir transaction
+  disabled?: boolean;
+}
 
 // Declaración global para tipar el objeto WidgetCheckout del window
 declare global {
   interface Window {
     WidgetCheckout: {
-      new (config: WidgetCheckoutConfig): WidgetCheckoutInstance;
+      new(config: WidgetCheckoutConfig): WidgetCheckoutInstance;
     };
   }
 }
@@ -44,9 +43,15 @@ interface CheckoutResult {
   [key: string]: any;
 }
 
+const generateUniqueReference = () => {
+  const timestamp = Date.now().toString(36);
+  const randomStr = Math.random().toString(36).substring(2, 8);
+  return `ia_${timestamp}_${randomStr}`;
+};
+
 const WompiWidget: React.FC<WompiWidgetProps> = ({
   amountInCents,
-  reference,
+  formData,
   onTransactionSuccess,
   disabled = false,
 }) => {
@@ -61,6 +66,17 @@ const WompiWidget: React.FC<WompiWidgetProps> = ({
         console.error("Error: El monto no es válido", amountInCents);
         return;
       }
+
+      const reference = generateUniqueReference();
+      
+      // Crear inscripción pendiente
+      const payload = {
+        ...formData,
+        reference,
+        targetDate: '2022-10-01'
+      };
+
+      await createPendingInscription(payload);
 
       const signature = await getSignature(reference, amountInCents, 'COP');
 
@@ -91,38 +107,14 @@ const WompiWidget: React.FC<WompiWidgetProps> = ({
         const { transaction } = result;
         console.log("Transacción recibida:", transaction);
 
-        const notifData = {
-          email: transaction.customerEmail,
-          username: transaction.customerData.fullName,
-          phone: transaction.customerData.phoneNumber,
-          documentNumber: transaction.billingData?.legalId || "No Disponible, visita el excel",
-          documentType: transaction.billingData?.legalIdType || "No Disponible, visita el excel",
-          paymentMethod: transaction.paymentMethodType,
-          contactEmail: "miguel@fundacioncampuslands.com",
-        };
-        
-
         if (transaction.status === "APPROVED") {
           console.log("¡Pago exitoso!");
           // Llamamos al callback para enviar la información del formulario
           if (onTransactionSuccess) {
             onTransactionSuccess(transaction);
-              try {
-                if (transaction.customerEmail && transaction.customerData.fullName) {
-
-                  const welcomeResponse = await sendWelcomeEmail(transaction.customerEmail, transaction.customerData.fullName);
-                  const notificationResponse = await sendNotificationEmail(notifData)
-                  console.log(welcomeResponse, notificationResponse);
-                } else {
-                  console.warn("No se encontraron datos del cliente para enviar el correo.");
-                }
-              } catch (error) {
-                console.error("Error enviando el correo de bienvenida:", error);
-              }
-
-               setTimeout(() => {
-                 window.location.href = `${window.location.origin}/pago-exitoso`;
-               }, 300);
+            setTimeout(() => {
+              window.location.href = `${window.location.origin}/pago-exitoso`;
+            }, 300);
           }
 
         } else if (transaction.status === "DECLINED") {

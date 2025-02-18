@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import WompiWidget from './WompiWidget';
-import { saveRegisteredInfo } from '../../data/wompiService';
 
 export default function RegistrationForm() {
   const [formData, setFormData] = useState({
@@ -26,37 +25,22 @@ export default function RegistrationForm() {
 
   // Modificar handlePaymentSuccess para aceptar la transacción
   const handlePaymentSuccess = async (transaction: any) => {
-
     try {
       setIsSubmitting(true);
       setError('');
       setSuccess(false);
-
-      // Combinar los datos del formulario con la transacción
-      const payload = {
-        ...formData,
-        transaction,
-        targetDate: "2025-02-22" // Si MySQL usa `DATE`
-      };
-
-      // Llama al servicio y envía los datos
-      await saveRegisteredInfo(payload);
-
+  
+      console.log("Transacción exitosa:", transaction);
+  
       setSuccess(true);
       resetForm();
-
+  
     } catch (err) {
       console.error('Error:', err);
-      setError('Error al enviar el formulario. Por favor intenta nuevamente.');
+      setError('Error al procesar el pago. Por favor intenta nuevamente.');
     } finally {
       setIsSubmitting(false);
     }
-  };
-
-  const generateUniqueReference = () => {
-    const timestamp = Date.now().toString(36);
-    const randomStr = Math.random().toString(36).substring(2, 8);
-    return `ia_${timestamp}_${randomStr}`;
   };
 
   const isFormValid = Object.values(formData).every(value => value.trim().length > 0);
@@ -142,7 +126,7 @@ export default function RegistrationForm() {
         {isFormValid ? (
           <WompiWidget
             amountInCents={9700000}
-            reference={generateUniqueReference()}
+            formData={formData}
             onTransactionSuccess={(transaction) => handlePaymentSuccess(transaction)} // Pasar transacción
             disabled={isSubmitting}
           />
