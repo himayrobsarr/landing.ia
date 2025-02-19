@@ -46,6 +46,7 @@ export const createPendingInscription = async (payload: any): Promise<any> => {
             phone: payload.phone,
             document: payload.document,
             payment_reference: payload.reference,
+            numSeats: payload.numSeats,
             selected_course: payload.targetDate
         }
 
