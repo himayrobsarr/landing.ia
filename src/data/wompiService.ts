@@ -14,7 +14,7 @@ export const getSignature = async (
 ): Promise<string> => {
     try {
         const response = await axios.post<GetSignatureResponse>(
-            `${API_BASE_URL}payments/generate-signature`,
+            `${API_BASE_URL}wompi/generate-signature`,
             {
                 reference,
                 amountInCents,
@@ -36,7 +36,8 @@ export const getSignature = async (
     }
 };
 
-export const saveRegisteredInfo = async (payload: any): Promise<any> => {
+// esta peticion hace que se cree la inscripcion en pendiente, y  con la
+export const createPendingInscription = async (payload: any): Promise<any> => {
     try {
         const data = {
             name: payload.name,
@@ -44,12 +45,12 @@ export const saveRegisteredInfo = async (payload: any): Promise<any> => {
             email: payload.email,
             phone: payload.phone,
             document: payload.document,
-            payment_reference: payload.transaction.reference,
-            payment_date: payload.transaction.finalizedAt,
+            payment_reference: payload.reference,
+            numSeats: payload.numSeats,
             selected_course: payload.targetDate
         }
 
-        // console.log("data a enviar:", data)
+        console.log("data a enviar:", data)
 
         const response = await axios.post(`${API_BASE_URL}landing-ia/register`, data);
 
