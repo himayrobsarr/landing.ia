@@ -36,7 +36,7 @@ export default function RegistrationForm() {
       const payload = {
         ...formData,
         transaction,
-        targetDate: "2025-02-22" // Si MySQL usa `DATE`
+        targetDate: "2025-03-01" // Si MySQL usa `DATE`
       };
 
       // Llama al servicio y envía los datos
