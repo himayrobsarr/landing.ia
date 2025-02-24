@@ -73,7 +73,7 @@ const WompiWidget: React.FC<WompiWidgetProps> = ({
       const payload = {
         ...formData,
         reference,
-        targetDate: '2025-02-22'
+        targetDate: '2025-03-01'
       };
 
       await createPendingInscription(payload);
