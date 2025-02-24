@@ -14,12 +14,16 @@ export default function RegistrationForm() {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState('');
+  const [maxSeatsError, setMaxSeatsError] = useState(false);
+  const [minSeatsError, setMinSeatsError] = useState(false);
   const [success, setSuccess] = useState(false);
 
   // Precios
   const INDIVIDUAL_PRICE = 97000;
   const BULK_DISCOUNT_PRICE = 75000;
   const BULK_DISCOUNT_THRESHOLD = 40;
+  const MAX_SEATS = 1000;
+  const MIN_MULTIPLE_SEATS = 2;
 
   const resetForm = () => {
     setFormData({
@@ -28,9 +32,22 @@ export default function RegistrationForm() {
       email: '',
       phone: '',
       document: '',
-      numSeats: '1'
+      numSeats: formType === 'individual' ? '1' : MIN_MULTIPLE_SEATS.toString()
     });
   };
+
+  // Actualizar el valor de cupos al cambiar entre individual y múltiple
+  useEffect(() => {
+    if (formType === 'individual') {
+      setFormData(prev => ({ ...prev, numSeats: '1' }));
+    } else {
+      // Si cambia a múltiple y el valor es menor que el mínimo, actualizarlo
+      const currentSeats = Number(formData.numSeats);
+      if (currentSeats < MIN_MULTIPLE_SEATS) {
+        setFormData(prev => ({ ...prev, numSeats: MIN_MULTIPLE_SEATS.toString() }));
+      }
+    }
+  }, [formType]);
 
   const handlePaymentSuccess = async (transaction: any) => {
     try {
@@ -62,8 +79,8 @@ export default function RegistrationForm() {
   };
 
   const getAmountInCents = () => {
-    return formType === 'individual' 
-      ? INDIVIDUAL_PRICE * 100 
+    return formType === 'individual'
+      ? INDIVIDUAL_PRICE * 100
       : calculateTotal() * 100;
   };
 
@@ -71,10 +88,10 @@ export default function RegistrationForm() {
     formType === 'individual'
       ? Object.values(formData).slice(0, 5).every(value => value.trim().length > 0)
       : formData.name.trim().length > 0 &&
-        formData.lastname.trim().length > 0 &&
-        formData.email.trim().length > 0 &&
-        formData.phone.trim().length > 0 &&
-        Number(formData.numSeats) > 0;
+      formData.lastname.trim().length > 0 &&
+      formData.email.trim().length > 0 &&
+      formData.phone.trim().length > 0 &&
+      Number(formData.numSeats) >= MIN_MULTIPLE_SEATS;
 
   return (
     <form className={`mx-auto ${formType === 'multiple' ? 'max-w-5xl' : 'max-w-md'}`}>
@@ -160,7 +177,7 @@ export default function RegistrationForm() {
                 { label: 'Nombre de la empresa/organización', name: 'lastname', placeholder: 'Ej: Tech Solutions' },
                 { label: 'NIT', name: 'document', placeholder: 'Ej: 900.123.456-7' },
                 { label: 'Representante', name: 'name', placeholder: 'Ej: María López' },
-                { label: 'Email', name: 'email', type: 'email', placeholder: 'correo@ejemplo.com' },
+                { label: 'Email de contacto', name: 'email', type: 'email', placeholder: 'correo@ejemplo.com' },
                 { label: 'Celular de contacto', name: 'phone', placeholder: '+57 300 123 4567' },
                 { label: 'Cantidad de cupos', name: 'numSeats', placeholder: 'Ej: 10', type: 'number' }
               ].map(field => (
@@ -170,13 +187,80 @@ export default function RegistrationForm() {
                     type={field.type || 'text'}
                     name={field.name}
                     value={formData[field.name as keyof typeof formData]}
-                    onChange={e => setFormData({ ...formData, [field.name]: e.target.value })}
+                    onChange={e => {
+                      if (field.name === 'numSeats') {
+                        // Solo permitir números
+                        const numericValue = e.target.value.replace(/\D/g, '');
+                        
+                        // Verificar si el valor es cero o contiene solo ceros
+                        const isAllZeros = /^0+$/.test(numericValue);
+                        const isEmpty = numericValue === '';
+                        
+                        // Manejar casos especiales: valor vacío o solo ceros
+                        if (isEmpty || isAllZeros) {
+                          setFormData({ ...formData, [field.name]: '' });
+                          setMaxSeatsError(false);
+                          setMinSeatsError(true);
+                          return;
+                        }
+                        
+                        // Quitar ceros iniciales (001 -> 1)
+                        const cleanedValue = numericValue.replace(/^0+/, '');
+                        
+                        // Verificar si el valor excede el máximo permitido o es menor que el mínimo
+                        const numValue = parseInt(cleanedValue);
+                        if (numValue > MAX_SEATS) {
+                          setMaxSeatsError(true);
+                          setMinSeatsError(false);
+                          setFormData({ ...formData, [field.name]: MAX_SEATS.toString() });
+                        } else if (numValue < MIN_MULTIPLE_SEATS) {
+                          // Mostrar error para valor menor que el mínimo pero mantener lo que escribió el usuario
+                          setFormData({ ...formData, [field.name]: cleanedValue });
+                          setMaxSeatsError(false);
+                          setMinSeatsError(true);
+                        } else {
+                          setMaxSeatsError(false);
+                          setMinSeatsError(false);
+                          setFormData({ ...formData, [field.name]: cleanedValue });
+                        }
+                      } else {
+                        setFormData({ ...formData, [field.name]: e.target.value });
+                      }
+                    }}
+                    onKeyDown={e => {
+                      if (field.name === 'numSeats') {
+                        // Permitir solo teclas numéricas, borrar, tab, enter, flechas
+                        const allowedKeys = ['Backspace', 'Tab', 'Enter', 'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'Delete'];
+                        const isNumericKey = /^[0-9]$/.test(e.key);
+                        
+                        if (!isNumericKey && !allowedKeys.includes(e.key)) {
+                          e.preventDefault();
+                        }
+                      }
+                    }}
                     required
                     disabled={isSubmitting}
-                    placeholder={field.placeholder}
-                    min={field.name === 'numSeats' ? '1' : undefined}
+                    placeholder={field.name === 'numSeats' ? `Mínimo ${MIN_MULTIPLE_SEATS}` : field.placeholder}
+                    min={field.name === 'numSeats' ? MIN_MULTIPLE_SEATS.toString() : undefined}
+                    max={field.name === 'numSeats' ? MAX_SEATS.toString() : undefined}
+                    step={field.name === 'numSeats' ? '1' : undefined}
+                    inputMode={field.name === 'numSeats' ? 'numeric' : undefined}
                     className="w-full px-4 py-3 bg-white/5 border border-purple-500/20 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
                   />
+                  {field.name === 'numSeats' && (
+                    <>
+                      {maxSeatsError && (
+                        <div className="text-red-400 text-sm mt-1">
+                          El máximo número de cupos permitido es {MAX_SEATS}.
+                        </div>
+                      )}
+                      {minSeatsError && (
+                        <div className="text-purple-500 text-sm mt-1">
+                          Para empresas, debes ingresar al menos {MIN_MULTIPLE_SEATS} cupos.
+                        </div>
+                      )}
+                    </>
+                  )}
                 </div>
               ))}
             </>
@@ -203,23 +287,23 @@ export default function RegistrationForm() {
         {formType === 'multiple' && (
           <div className="md:w-2/5 space-y-6 bg-white/5 p-8 rounded-xl border border-purple-500/20 h-fit sticky top-4">
             <h3 className="text-xl font-bold text-white mb-4">Resumen de Compra</h3>
-            
+
             <div className="space-y-4">
               <div className="flex justify-between text-white/80">
                 <span>Empresa:</span>
                 <span className="font-medium text-white">{formData.lastname || '—'}</span>
               </div>
-              
+
               <div className="flex justify-between text-white/80">
                 <span>Representante:</span>
                 <span className="font-medium text-white">{formData.name || '—'}</span>
               </div>
-              
+
               <div className="flex justify-between text-white/80">
                 <span>Cantidad de cupos:</span>
                 <span className="font-medium text-white">{formData.numSeats || '0'}</span>
               </div>
-              
+
               <div className="flex justify-between text-white/80">
                 <span>Precio por cupo:</span>
                 <span className="font-medium text-white">
@@ -231,24 +315,24 @@ export default function RegistrationForm() {
                   )}
                 </span>
               </div>
-              
+
               <div className="h-px bg-purple-500/20 my-4"></div>
-              
+
               <div className="flex justify-between text-lg">
                 <span className="text-white/80">Total a pagar:</span>
                 <span className="font-bold text-white">
                   ${calculateTotal().toLocaleString('es-CO')}
                 </span>
               </div>
-              
+
               {/* Mensaje de promoción */}
               <div className="bg-purple-600/20 border border-purple-500/30 rounded-lg p-4 mt-6">
                 <p className="text-purple-300 text-sm">
-                  <span className="font-bold">¡Oferta especial!</span> Al comprar más de {BULK_DISCOUNT_THRESHOLD} cupos, 
+                  <span className="font-bold">¡Oferta especial!</span> Al comprar más de {BULK_DISCOUNT_THRESHOLD} cupos,
                   el precio por persona baja a ${BULK_DISCOUNT_PRICE.toLocaleString('es-CO')}
                 </p>
               </div>
-              
+
               {/* Botón de pago o mensaje de completar datos */}
               {isFormValid ? (
                 <WompiWidget
@@ -262,7 +346,7 @@ export default function RegistrationForm() {
                   Completa tus datos para pagar
                 </button>
               )}
-              
+
               <p className="text-[#bcafbd] text-sm text-center mt-4">
                 Una vez completes el pago, te contactaremos para gestionar los datos de tu equipo.
               </p>
