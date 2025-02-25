@@ -6,9 +6,9 @@ export const features = [
     weeks: "Módulo 1 ",
   },
   {
-    title: "Desarrollo y Personalización de GPTs",
+    title: "Navegación y Uso del Ecosistema OpenAI",
     description:
-      "Aprende a crear y ajustar modelos GPT según necesidades específicas, optimizando su desempeño para distintas tareas.",
+      "Familiarízate con las herramientas y plataformas de OpenAI para maximizar el potencial de la inteligencia artificial.",
     weeks: "Módulo 2 ",
   },
   {
@@ -30,9 +30,9 @@ export const features = [
     weeks: "Módulo 5",
   },
   {
-    title: "Navegación y Uso del Ecosistema OpenAI",
+    title: "Ingeniería de Prompts y Optimización de Respuestas",
     description:
-      "Familiarízate con las herramientas y plataformas de OpenAI para maximizar el potencial de la inteligencia artificial.",
-    weeks: "Módulo 6 ",
-  },
+      "Domina las mejores técnicas para formular prompts efectivos, mejorar la precisión de las respuestas y adaptar la IA a distintas necesidades.",
+    weeks: "Módulo 6",
+  }
 ];
