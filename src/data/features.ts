@@ -1,33 +1,38 @@
-
 export const features = [
-    {
-      title: "Introducción a la Inteligencia Artificial",
-      description: "Descubre qué es la IA y cómo puedes usarla en tareas diarias sin conocimientos técnicos.",
-      weeks: "Módulo 1 "
-    },
-    {
-      title: "Automatización de Documentos",
-      description: "Aprende a generar reportes, cartas y correos electrónicos con herramientas que redactan por ti, ¡solo necesitas dar una idea inicial!",
-      weeks: "Módulo 2 "
-    },
-    {
-      title: "Gestión Inteligente de Agendas y Tareas",
-      description: "Descubre cómo asistentes virtuales pueden ayudarte a organizar citas, recordar pendientes y planificar tu día de forma eficiente.",
-      weeks: "Módulo 3 "
-    },
-    {
-      title: "Creación de Resúmenes Rápidos",
-      description: "Convierte largos textos en resúmenes claros y precisos en cuestión de segundos con la ayuda de la IA.",
-      weeks: "Módulo 4 "
-    },
-    {
-      title: "Generación de Ideas y Soluciones",
-      description: "Encuentra inspiración o soluciones rápidas para problemas laborales cotidianos, desde redactar un memo hasta planificar una reunión.",
-      weeks: "Módulo 5 "
-    },
-    {
-      title: "Optimización de Trabajo Administrativo",
-      description: "Usa herramientas de IA para completar hojas de cálculo, analizar datos simples o crear presentaciones con menos esfuerzo.",
-      weeks: "Módulo 6 "
-    }
-  ];
+  {
+    title: "Introducción a la Inteligencia Artificial",
+    description:
+      "Descubre qué es la IA y cómo puedes usarla en tareas diarias sin conocimientos técnicos.",
+    weeks: "Módulo 1 ",
+  },
+  {
+    title: "Navegación y Uso del Ecosistema OpenAI",
+    description:
+      "Familiarízate con las herramientas y plataformas de OpenAI para maximizar el potencial de la inteligencia artificial.",
+    weeks: "Módulo 2 ",
+  },
+  {
+    title: "Resolución de Problemas con IA",
+    description:
+      "Aprende a identificar cuándo y cómo utilizar la inteligencia artificial para optimizar procesos, mejorar la toma de decisiones y encontrar soluciones eficientes.",
+    weeks: "Módulo 3 ",
+  },
+  {
+    title: "Automatización y Productividad con IA",
+    description:
+      "Optimiza tu tiempo con asistentes inteligentes para gestionar agendas, generar ideas y soluciones con inspiración rápida, automatizar tareas administrativas y agilizar la planificación diaria.",
+    weeks: "Módulo 4",
+  },
+  {
+    title: "Ética y Buenas Prácticas en el Uso de IA",
+    description:
+      "Comprende los principios éticos en el uso de IA, cómo evitar sesgos, garantizar la privacidad de los datos y aplicar la inteligencia artificial de manera responsable.",
+    weeks: "Módulo 5",
+  },
+  {
+    title: "Ingeniería de Prompts y Optimización de Respuestas",
+    description:
+      "Domina las mejores técnicas para formular prompts efectivos, mejorar la precisión de las respuestas y adaptar la IA a distintas necesidades.",
+    weeks: "Módulo 6",
+  }
+];

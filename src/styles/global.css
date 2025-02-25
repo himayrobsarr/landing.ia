@@ -16,6 +16,48 @@
   }
 }
 
+@layer utilities {
+  .card-glow{
+    @apply relative;
+    --x-px: calc(var(--x) * 1px);
+    --y-px: calc(var(--y) * 1px);
+  }
+
+  .card-glow::before,
+  .card-glow::after {
+    content: "";
+    @apply absolute inset-0 w-full h-full rounded-lg inline-block transition-all;
+    background: radial-gradient(800px circle at var(--x-px) var(--y-px),
+        rgba(255, 255, 255, 0.3),
+        transparent 40%);
+  }
+
+  .card-glow::before {
+    @apply opacity-0 z-[1];
+  }
+
+  .card-glow::after {
+    @apply opacity-0 z-[2];
+  }
+
+    .card-glow:hover::before {
+      @apply opacity-20;
+    }
+
+  .card-glow:hover::after {
+      @apply opacity-20;
+    }
+
+    @layer utilities {
+      .noise {
+        background-image: url("http://assets.iceable.com/img/noise-transparent.png");
+        @apply bg-repeat bg-[#151933];
+      }
+    }
+}
+
+
+
 .text-gradient {
   @apply bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-blue-400;
 }
