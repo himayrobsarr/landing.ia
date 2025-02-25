@@ -47,12 +47,16 @@
   .card-glow:hover::after {
       @apply opacity-20;
     }
+
+    @layer utilities {
+      .noise {
+        background-image: url("http://assets.iceable.com/img/noise-transparent.png");
+        @apply bg-repeat;
+      }
+    }
 }
 
-.noise {
-  background: url(http://assets.iceable.com/img/noise-transparent.png) repeat 0 0;
-  background-repeat: repeat;
-}
+
 
 .text-gradient {
   @apply bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-blue-400;
