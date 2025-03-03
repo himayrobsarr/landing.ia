@@ -3,6 +3,14 @@ import WompiWidget from './WompiWidget';
 import RegistrationSelector from './RegistrationSelector';
 
 export default function RegistrationForm() {
+  // Array de fechas disponibles - fácil de editar desde aquí
+  const AVAILABLE_DATES = [
+    { id: '1', date: '8 de marzo de 2025', location: 'Bucaramanga', value: '2025-03-08' },
+    { id: '2', date: '15 de marzo de 2025', location: 'Bucaramanga', value: '2025-03-15' },
+    { id: '3', date: '22 de marzo de 2025', location: 'Bucaramanga', value: '2025-03-22' },
+    { id: '4', date: '29 de marzo de 2025', location: 'Bucaramanga', value: '2025-03-29' }
+  ];
+
   const [formType, setFormType] = useState<'individual' | 'multiple'>('individual');
   const [formData, setFormData] = useState({
     name: '',
@@ -10,7 +18,8 @@ export default function RegistrationForm() {
     email: '',
     phone: '',
     document: '',
-    numSeats: '1'
+    numSeats: '1',
+    targetDate: '' // Campo para la fecha seleccionada del curso
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState('');
@@ -32,7 +41,8 @@ export default function RegistrationForm() {
       email: '',
       phone: '',
       document: '',
-      numSeats: formType === 'individual' ? '1' : MIN_MULTIPLE_SEATS.toString()
+      numSeats: formType === 'individual' ? '1' : MIN_MULTIPLE_SEATS.toString(),
+      targetDate: ''
     });
   };
 
@@ -86,12 +96,19 @@ export default function RegistrationForm() {
 
   const isFormValid =
     formType === 'individual'
-      ? Object.values(formData).slice(0, 5).every(value => value.trim().length > 0)
+      ? Object.values(formData).slice(0, 5).every(value => value.trim().length > 0) && formData.targetDate !== ''
       : formData.name.trim().length > 0 &&
       formData.lastname.trim().length > 0 &&
       formData.email.trim().length > 0 &&
       formData.phone.trim().length > 0 &&
-      Number(formData.numSeats) >= MIN_MULTIPLE_SEATS;
+      Number(formData.numSeats) >= MIN_MULTIPLE_SEATS &&
+      formData.targetDate !== '';
+
+  // Obtener la fecha seleccionada para mostrar en el resumen
+  const getSelectedDateText = () => {
+    const selectedDate = AVAILABLE_DATES.find(d => d.value === formData.targetDate);
+    return selectedDate ? `${selectedDate.date} - ${selectedDate.location}` : '—';
+  };
 
   return (
     <form className={`mx-auto ${formType === 'multiple' ? 'max-w-5xl' : 'max-w-md'}`}>
@@ -116,6 +133,37 @@ export default function RegistrationForm() {
 
           {/* Selector de tipo de inscripción */}
           <RegistrationSelector formType={formType} setFormType={setFormType} />
+
+          {/* Campo de selección de fecha para ambos formularios */}
+          <div className="space-y-2">
+            <label className="block text-sm font-medium text-white/80">¿Qué fecha seleccionas?</label>
+            <select
+              name="targetDate"
+              value={formData.targetDate}
+              onChange={e => {
+                const selectedOption = AVAILABLE_DATES.find(d => d.value === e.target.value);
+                setFormData({ ...formData, targetDate: selectedOption ? selectedOption.value : '' });
+              }}
+              required
+              disabled={isSubmitting}
+              className="w-full px-4 py-3 bg-white/5 border border-purple-500/20 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+              style={{ color: formData.targetDate === '' ? '#9ca3af' : 'white' }}
+            >
+              <option value="" disabled style={{ color: '#6b7280', backgroundColor: '#1e1e2f' }}>Selecciona una fecha</option>
+              {AVAILABLE_DATES.map(dateOption => (
+                <option 
+                  key={dateOption.id} 
+                  value={dateOption.value}
+                  style={{ color: 'white', backgroundColor: '#1e1e2f' }}
+                >
+                  {dateOption.date} - {dateOption.location}
+                </option>
+              ))}
+            </select>
+            {formData.targetDate === '' && (
+              <p className="text-purple-400 text-sm mt-1">Por favor selecciona una fecha para continuar</p>
+            )}
+          </div>
 
           {/* Formulario para inscripción individual */}
           {formType === 'individual' && (
@@ -297,6 +345,11 @@ export default function RegistrationForm() {
               <div className="flex justify-between text-white/80">
                 <span>Representante:</span>
                 <span className="font-medium text-white">{formData.name || '—'}</span>
+              </div>
+
+              <div className="flex justify-between text-white/80">
+                <span>Fecha seleccionada:</span>
+                <span className="font-medium text-white">{getSelectedDateText()}</span>
               </div>
 
               <div className="flex justify-between text-white/80">

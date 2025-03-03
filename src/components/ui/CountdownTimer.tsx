@@ -1,31 +1,36 @@
-// src/components/ui/CountdownTimer.tsx
 import { useState, useEffect } from 'react';
 
 export default function CountdownTimer() {
   const [mounted, setMounted] = useState(false);
+  const [targetDate, setTargetDate] = useState(new Date('2025-03-08T08:00:00'));
   const [timeLeft, setTimeLeft] = useState({
     days: 0,
     hours: 0,
     minutes: 0,
     seconds: 0
   });
- 
+
   useEffect(() => {
     setMounted(true);
+
     const calculateTimeLeft = () => {
-      const targetDate = new Date('2025-03-01T08:00:00');
       const now = new Date();
       const difference = targetDate.getTime() - now.getTime();
- 
+
       if (difference <= 0) {
+        setTargetDate(prevDate => {
+          const newDate = new Date(prevDate);
+          newDate.setDate(newDate.getDate() + 7);
+          return newDate;
+        });
         return {
           days: 0,
-          hours: 0, 
+          hours: 0,
           minutes: 0,
           seconds: 0
         };
       }
- 
+
       return {
         days: Math.floor(difference / (1000 * 60 * 60 * 24)),
         hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
@@ -33,16 +38,16 @@ export default function CountdownTimer() {
         seconds: Math.floor((difference / 1000) % 60)
       };
     };
- 
+
     const timer = setInterval(() => {
       setTimeLeft(calculateTimeLeft());
     }, 1000);
- 
+
     return () => clearInterval(timer);
-  }, []);
- 
+  }, [targetDate]);
+
   if (!mounted) return null;
- 
+
   return (
     <div className="flex gap-4 justify-center">
       {Object.entries(timeLeft).map(([unit, value]) => (
@@ -57,4 +62,4 @@ export default function CountdownTimer() {
       ))}
     </div>
   );
- }
+}
