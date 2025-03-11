@@ -5,7 +5,6 @@ import RegistrationSelector from './RegistrationSelector';
 export default function RegistrationForm() {
   // Array de fechas disponibles - fácil de editar desde aquí
   const AVAILABLE_DATES = [
-    { id: '1', date: '8 de marzo de 2025', location: 'Bucaramanga', value: '2025-03-08' },
     { id: '2', date: '15 de marzo de 2025', location: 'Bucaramanga', value: '2025-03-15' },
     { id: '3', date: '22 de marzo de 2025', location: 'Bucaramanga', value: '2025-03-22' },
     { id: '4', date: '29 de marzo de 2025', location: 'Bucaramanga', value: '2025-03-29' }
